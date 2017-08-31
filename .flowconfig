@@ -1,0 +1,11 @@
+[ignore]
+# ignore library errors
+.*/node_modules/react-native-fs/FS.common.js
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]

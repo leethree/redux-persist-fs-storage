@@ -1,0 +1,26 @@
+{
+  "name": "redux-persist-fs-storage",
+  "version": "1.0.0",
+  "description": "Redux-Persist storage engine for React Native file system",
+  "repository": "https://github.com/leethree/redux-persist-fs-storage.git",
+  "author": "LeeThree <leethree@users.noreply.github.com>",
+  "license": "MIT",
+  "keywords": ["redux", "redux-persist", "storage", "AsyncStorage"],
+  "main": "lib/index.js",
+  "scripts": {},
+  "dependencies": {
+    "react-native-fs": "^2.5.1"
+  },
+  "devDependencies": {
+    "flow-bin": "^0.53.1",
+    "prettier": "^1.6.1"
+  },
+  "peerDependencies": {
+    "react-native": ">=0.40.0"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all",
+    "parser": "flow"
+  }
+}
