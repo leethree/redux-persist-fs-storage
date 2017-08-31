@@ -6,7 +6,7 @@
   "author": "LeeThree <leethree@users.noreply.github.com>",
   "license": "MIT",
   "keywords": ["redux", "redux-persist", "storage", "AsyncStorage"],
-  "main": "lib/index.js",
+  "main": "index.js",
   "scripts": {},
   "dependencies": {
     "react-native-fs": "^2.5.1"
