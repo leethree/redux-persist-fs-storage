@@ -7,7 +7,7 @@ Inspired by [redux-persist-filesystem-storage](https://github.com/robwalkerco/re
 ### Install
 
 ```
-yarn add redux-persist-fs-storage
+yarn add react-native-fs redux-persist-fs-storage
 ```
 
 This will install `react-native-fs` as dependency. So make sure to link it natively:
