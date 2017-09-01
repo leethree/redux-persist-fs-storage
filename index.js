@@ -28,7 +28,8 @@ const FSStorage = (
     callback?: ?(error: ?Error) => void,
   ) =>
     fs
-      .writeFile(pathForKey(key), value, 'utf8')
+      .mkdir(baseFolder)
+      .then(() => fs.writeFile(pathForKey(key), value, 'utf8'))
       .then(callback || noop)
       .catch(callback || noop);
 
@@ -37,13 +38,15 @@ const FSStorage = (
     callback?: ?(error: ?Error, result: ?string) => void,
   ) =>
     fs
-      .readFile(pathForKey(key), 'utf8')
-      .then(data => (callback ? callback(null, data) : noop))
+      .exists(pathForKey(key))
+      .then(exists => (exists ? fs.readFile(pathForKey(key), 'utf8') : null))
+      .then(data => (callback ? callback(null, data) : noop()))
       .catch(callback || noop);
 
   const removeItem = (key: string, callback?: ?(error: ?Error) => void) =>
     fs
-      .unlink(pathForKey(key))
+      .exists(pathForKey(key))
+      .then(exists => (exists ? fs.unlink(pathForKey(key)) : null))
       .then(callback || noop)
       .catch(callback || noop);
 
@@ -52,16 +55,13 @@ const FSStorage = (
   ) =>
     fs
       .mkdir(baseFolder)
-      .then(() =>
-        fs
-          .readDir(baseFolder)
-          .then(files =>
-            files
-              .filter(file => file.isFile())
-              .map(file => decodeURIComponent(file.name)),
-          )
-          .then(files => (callback ? callback(null, files) : noop)),
+      .then(() => fs.readDir(baseFolder))
+      .then(files =>
+        files
+          .filter(file => file.isFile())
+          .map(file => decodeURIComponent(file.name)),
       )
+      .then(files => callback && callback(null, files))
       .catch(callback || noop);
 
   return {
