@@ -11,6 +11,26 @@ const resolvePath = (...paths: Array<string>) =>
     .filter(part => part && part !== '.')
     .join('/');
 
+// Wrap function to support both Promise and callback
+async function withCallback<R>(
+  callback?: ?(error: ?Error, result: R | void) => void,
+  func: () => Promise<R>,
+): Promise<R | void> {
+  try {
+    const result = await func();
+    if (callback) {
+      callback(null, result);
+    }
+    return result;
+  } catch (err) {
+    if (callback) {
+      callback(err);
+    } else {
+      throw err;
+    }
+  }
+}
+
 const FSStorage = (
   location?: string = DocumentDir,
   folder?: string = 'reduxPersist',
@@ -20,80 +40,48 @@ const FSStorage = (
   const pathForKey = (key: string) =>
     resolvePath(baseFolder, encodeURIComponent(key));
 
-  const setItem = async (
+  const setItem = (
     key: string,
     value: string,
     callback?: ?(error: ?Error) => void,
-  ): Promise<void> => {
-    try {
+  ): Promise<void> =>
+    withCallback(callback, async () => {
       await fs.mkdir(baseFolder);
       await fs.writeFile(pathForKey(key), value, 'utf8');
-      callback && callback();
-    } catch (err) {
-      if (callback) {
-        callback(err);
-      } else {
-        throw err;
-      }
-    }
-  };
+    });
 
-  const getItem = async (
+  const getItem = (
     key: string,
     callback?: ?(error: ?Error, result: ?string) => void,
-  ): Promise<?string> => {
-    try {
+  ): Promise<?string> =>
+    withCallback(callback, async () => {
       if (await fs.exists(pathForKey(key))) {
         const data = await fs.readFile(pathForKey(key), 'utf8');
-        callback && callback(null, data);
         return data;
       }
-    } catch (err) {
-      if (callback) {
-        callback(err);
-      } else {
-        throw err;
-      }
-    }
-  };
+    });
 
-  const removeItem = async (
+  const removeItem = (
     key: string,
     callback?: ?(error: ?Error) => void,
-  ): Promise<void> => {
-    try {
+  ): Promise<void> =>
+    withCallback(callback, async () => {
       if (await fs.exists(pathForKey(key))) {
         await fs.unlink(pathForKey(key));
-        callback && callback();
       }
-    } catch (err) {
-      if (callback) {
-        callback(err);
-      } else {
-        throw err;
-      }
-    }
-  };
+    });
 
-  const getAllKeys = async (
+  const getAllKeys = (
     callback?: ?(error: ?Error, keys: ?Array<string>) => void,
-  ) => {
-    try {
+  ) =>
+    withCallback(callback, async () => {
       await fs.mkdir(baseFolder);
       const files = await fs.readDir(baseFolder);
       const fileNames = files
         .filter(file => file.isFile())
         .map(file => decodeURIComponent(file.name));
-      callback && callback(null, fileNames);
       return fileNames;
-    } catch (err) {
-      if (callback) {
-        callback(err);
-      } else {
-        throw err;
-      }
-    }
-  };
+    });
 
   return {
     setItem,
