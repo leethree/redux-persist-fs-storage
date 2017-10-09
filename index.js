@@ -11,8 +11,6 @@ const resolvePath = (...paths: Array<string>) =>
     .filter(part => part && part !== '.')
     .join('/');
 
-const noop = () => {};
-
 const FSStorage = (
   location?: string = DocumentDir,
   folder?: string = 'reduxPersist',
@@ -22,47 +20,80 @@ const FSStorage = (
   const pathForKey = (key: string) =>
     resolvePath(baseFolder, encodeURIComponent(key));
 
-  const setItem = (
+  const setItem = async (
     key: string,
     value: string,
     callback?: ?(error: ?Error) => void,
-  ) =>
-    fs
-      .mkdir(baseFolder)
-      .then(() => fs.writeFile(pathForKey(key), value, 'utf8'))
-      .then(callback || noop)
-      .catch(callback || noop);
+  ): Promise<void> => {
+    try {
+      await fs.mkdir(baseFolder);
+      await fs.writeFile(pathForKey(key), value, 'utf8');
+      callback && callback();
+    } catch (err) {
+      if (callback) {
+        callback(err);
+      } else {
+        throw err;
+      }
+    }
+  };
 
-  const getItem = (
+  const getItem = async (
     key: string,
     callback?: ?(error: ?Error, result: ?string) => void,
-  ) =>
-    fs
-      .exists(pathForKey(key))
-      .then(exists => (exists ? fs.readFile(pathForKey(key), 'utf8') : null))
-      .then(data => (callback ? callback(null, data) : noop()))
-      .catch(callback || noop);
+  ): Promise<?string> => {
+    try {
+      if (await fs.exists(pathForKey(key))) {
+        const data = await fs.readFile(pathForKey(key), 'utf8');
+        callback && callback(null, data);
+        return data;
+      }
+    } catch (err) {
+      if (callback) {
+        callback(err);
+      } else {
+        throw err;
+      }
+    }
+  };
 
-  const removeItem = (key: string, callback?: ?(error: ?Error) => void) =>
-    fs
-      .exists(pathForKey(key))
-      .then(exists => (exists ? fs.unlink(pathForKey(key)) : null))
-      .then(callback || noop)
-      .catch(callback || noop);
+  const removeItem = async (
+    key: string,
+    callback?: ?(error: ?Error) => void,
+  ): Promise<void> => {
+    try {
+      if (await fs.exists(pathForKey(key))) {
+        await fs.unlink(pathForKey(key));
+        callback && callback();
+      }
+    } catch (err) {
+      if (callback) {
+        callback(err);
+      } else {
+        throw err;
+      }
+    }
+  };
 
-  const getAllKeys = (
+  const getAllKeys = async (
     callback?: ?(error: ?Error, keys: ?Array<string>) => void,
-  ) =>
-    fs
-      .mkdir(baseFolder)
-      .then(() => fs.readDir(baseFolder))
-      .then(files =>
-        files
-          .filter(file => file.isFile())
-          .map(file => decodeURIComponent(file.name)),
-      )
-      .then(files => callback && callback(null, files))
-      .catch(callback || noop);
+  ) => {
+    try {
+      await fs.mkdir(baseFolder);
+      const files = await fs.readDir(baseFolder);
+      const fileNames = files
+        .filter(file => file.isFile())
+        .map(file => decodeURIComponent(file.name));
+      callback && callback(null, fileNames);
+      return fileNames;
+    } catch (err) {
+      if (callback) {
+        callback(err);
+      } else {
+        throw err;
+      }
+    }
+  };
 
   return {
     setItem,
