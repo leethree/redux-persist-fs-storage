@@ -14,11 +14,11 @@
   "main": "index.js",
   "scripts": {},
   "dependencies": {
-    "react-native-fs": "^2.5.2"
+    "react-native-fs": "^2.8.3"
   },
   "devDependencies": {
-    "flow-bin": "^0.53.1",
-    "prettier": "^1.7.0"
+    "flow-bin": "^0.58.0",
+    "prettier": "^1.7.4"
   },
   "peerDependencies": {
     "react-native": ">=0.40.0"

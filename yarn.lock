@@ -6,17 +6,17 @@ base-64@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/base-64/-/base-64-0.1.0.tgz#780a99c84e7d600260361511c4877613bf24f6bb"
 
-flow-bin@^0.53.1:
-  version "0.53.1"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.53.1.tgz#9b22b63a23c99763ae533ebbab07f88c88c97d84"
+flow-bin@^0.58.0:
+  version "0.58.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.58.0.tgz#62d5a776589419e5656800a0e5230a5e585ca65e"
 
-prettier@^1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.7.0.tgz#47481588f41f7c90f63938feb202ac82554e7150"
+prettier@^1.7.4:
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.7.4.tgz#5e8624ae9363c80f95ec644584ecdf55d74f93fa"
 
-react-native-fs@^2.5.2:
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.5.2.tgz#66022e6ca45daf9eea2d12e783f9db2669fb9202"
+react-native-fs@^2.8.3:
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.8.3.tgz#aa2eb841bc121f78bfa02443558a67050a9bb03e"
   dependencies:
     base-64 "^0.1.0"
     utf8 "^2.1.1"
