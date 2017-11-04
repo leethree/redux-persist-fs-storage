@@ -12,7 +12,9 @@
     "AsyncStorage"
   ],
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "prettier": "prettier --write index.js"
+  },
   "dependencies": {
     "react-native-fs": "^2.8.3"
   },
