@@ -5,7 +5,7 @@ export const DocumentDir = fs.DocumentDirectoryPath;
 export const CacheDir = fs.CachesDirectoryPath;
 
 const resolvePath = (...paths: Array<string>) =>
-  paths
+  '/' + paths
     .join('/')
     .split('/')
     .filter(part => part && part !== '.')
