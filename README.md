@@ -30,6 +30,7 @@ import FSStorage from 'redux-persist-fs-storage';
 
 const persistConfig = {
   key: 'root',
+  keyPrefix: '', // the redux-persist default is `persist:` which doesn't work with some file systems
   storage: FSStorage(),
 };
 
