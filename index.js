@@ -80,7 +80,7 @@ const FSStorage = (
       const files = await fs.readDir(baseFolder);
       const fileNames = files
         .filter(file => file.isFile())
-        .map(file => decodeURIComponent(file.name));
+        .map<string>(file => decodeURIComponent(file.name));
       return fileNames;
     });
 
