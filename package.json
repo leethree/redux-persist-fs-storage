@@ -19,14 +19,14 @@
     "prettier": "prettier --write index.js"
   },
   "dependencies": {
-    "react-native-fs": "^2.10.14"
+    "react-native-fs": "^2.14.1"
   },
   "devDependencies": {
-    "flow-bin": "0.67.1",
-    "prettier": "1.13.6"
+    "flow-bin": "0.105.1",
+    "prettier": "1.18.2"
   },
   "peerDependencies": {
-    "react-native": ">=0.51.0"
+    "react-native": ">=0.57.0"
   },
   "prettier": {
     "singleQuote": true,
